@@ -2,16 +2,19 @@
 
 
 [[projects]]
+  digest = "1:120daa8794d512fb61b908d278a84e5a1ff98f389a1eb0291a3ad2c1338654de"
   name = "github.com/Azure/azure-sdk-for-go"
   packages = [
     "profiles/preview/containerinstance/mgmt/containerinstance",
     "services/containerinstance/mgmt/2018-06-01/containerinstance",
-    "version"
+    "version",
   ]
+  pruneopts = "UT"
   revision = "4e8cbbfb1aeab140cd0fa97fd16b64ee18c3ca6a"
   version = "v19.1.0"
 
 [[projects]]
+  digest = "1:e782078a170a8f36451e2b6468d0cce2ac394d809054d8ec6820961fa58430fe"
   name = "github.com/Azure/go-autorest"
   packages = [
     "autorest",
@@ -22,35 +25,47 @@
     "autorest/to",
     "autorest/validation",
     "logger",
-    "version"
+    "version",
   ]
+  pruneopts = "UT"
   revision = "39013ecb48eaf6ced3f4e3e1d95515140ce6b3cf"
   version = "v10.15.2"
 
 [[projects]]
+  digest = "1:76dc72490af7174349349838f2fe118996381b31ea83243812a97e5a0fd5ed55"
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
+  pruneopts = "UT"
   revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
   version = "v3.2.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:e608bc2d867c3ded40ccea5417715393a50704ac24004afa87431a0e1976e50d"
   name = "github.com/dimchansky/utfbom"
   packages = ["."]
+  pruneopts = "UT"
   revision = "5448fe645cb1964ba70ac8f9f2ffe975e61a536c"
-  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:1d18232beafad93272158a9e9810f417b418c2f967e0506f3e2609c10310fe31"
   name = "golang.org/x/crypto"
   packages = [
     "pkcs12",
-    "pkcs12/internal/rc2"
+    "pkcs12/internal/rc2",
   ]
+  pruneopts = "UT"
   revision = "614d502a4dac94afa3a6ce146bd1736da82514c6"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "3e32c8e6431edfad00aa071f6de6d5453b12ed51777ca07426baf9c9f2696f83"
+  input-imports = [
+    "github.com/Azure/azure-sdk-for-go/profiles/preview/containerinstance/mgmt/containerinstance",
+    "github.com/Azure/go-autorest/autorest",
+    "github.com/Azure/go-autorest/autorest/azure/auth",
+    "github.com/Azure/go-autorest/autorest/to",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

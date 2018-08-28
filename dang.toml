@@ -1,0 +1,8 @@
+# My hello world toml file
+[[step]]
+image = "tripdubroot/hugo_builder:0.0.1"
+command = "hugo"
+
+    [[step.volume]]
+    containerMountPoint = "/src/hugo"
+    remoteMountPoint = "/azure/File/location"

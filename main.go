@@ -11,12 +11,37 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/Azure/go-autorest/autorest/to"
+
+	"github.com/BurntSushi/toml"
 )
 
+type volume struct {
+	ContainerMountPoint string
+	RemoteMountPoint    string
+}
+
+type step struct {
+	Image   string
+	Command string
+	Volumes []volume `toml:"volume"`
+}
+
+type config struct {
+	Steps []step `toml:"step"`
+}
+
 func main() {
+	var steps config
+	if _, err := toml.DecodeFile("dang.toml", &steps); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("Decoded: ", steps.Steps[0].Volumes[0].ContainerMountPoint)
+
 	containerClient := containerinstance.NewContainerGroupsClient("2295f62b-34e7-40a1-9e9f-6def6b9f20b7")
-	//containerClient.RequestInspector = logRequest()
-	//containerClient.ResponseInspector = logResponse()
+	containerClient.RequestInspector = logRequest()
+	containerClient.ResponseInspector = logResponse()
 
 	// create an authorizer from env vars or Azure Managed Service Identity
 	authorizer, err := auth.NewAuthorizerFromEnvironment()
@@ -26,11 +51,11 @@ func main() {
 	}
 
 	containerProps := containerinstance.ContainerProperties{
-		Image: to.StringPtr("nginx:latest"),
+		Image: to.StringPtr("docker:stable"),
 		Ports: &[]containerinstance.ContainerPort{
 			containerinstance.ContainerPort{
 				Protocol: containerinstance.ContainerNetworkProtocolTCP,
-				Port:     to.Int32Ptr(80),
+				Port:     to.Int32Ptr(2375),
 			},
 		},
 		Resources: &containerinstance.ResourceRequirements{
@@ -42,7 +67,6 @@ func main() {
 	}
 
 	containerGroup := containerinstance.ContainerGroup{
-		//Name:     to.StringPtr("mrjenk"),
 		Location: to.StringPtr("eastus2"),
 		ContainerGroupProperties: &containerinstance.ContainerGroupProperties{
 			Containers: &[]containerinstance.Container{
@@ -57,7 +81,7 @@ func main() {
 				Ports: &[]containerinstance.Port{
 					containerinstance.Port{
 						Protocol: "TCP",
-						Port:     to.Int32Ptr(80),
+						Port:     to.Int32Ptr(2375),
 					},
 				},
 				Type:         to.StringPtr("Public"),
